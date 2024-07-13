@@ -8,12 +8,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/registration', (req, res) => {
-  const requestData = req.body; 
+  const requestData = req.body;     
   res.status(200).json({
-    result: requestData 
+    result: requestData
   });
 });
 
 app.listen(port, () => {
-  console.log(`app na porta ${port}`);
+  console.log(`App na porta ${port}`);
 });

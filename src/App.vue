@@ -1,148 +1,108 @@
 <template>
   <div>
-    <main class="main">
-      <form @submit.prevent="onSubmit">
-        <!-- Name Input -->
-        <input
-          type="text"
-          placeholder="Enter your name"
-          v-model="name"
-          
-        />
-        <!-- CPF Input -->
-        <input
-          type="text"
-          placeholder="Enter your CPF"
-          v-model="cpf"
-          
-        />
-        <!-- Birth Date Input -->
-        <input
-          type="date"
-          v-model="birthDate"
-          
-        />
-        <!-- Phone Input -->
-        <input
-          type="tel"
-          placeholder="Enter your phone number"
-          v-model="phone"
-          
-        />
-        <!-- Email Input -->
-        <input
-          type="email"
-          placeholder="Enter your email"
-          v-model="email"
-          
-        />
-        <!-- Radio Buttons for Registration Type -->
-        <div>
-          <label>
-            <input
-              type="radio"
-              value="PF"
-              v-model="registrationType"
-              
-            />
-            Pessoa Física (PF)
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="PJ"
-              v-model="registrationType"
-              
-            />
-            Pessoa Jurídica (PJ)
-          </label>
-        </div>
-        <!-- Text Input -->
-        <input
-          type="text"
-          placeholder="Enter Anything"
-          v-model="testInput"
-          
-        />
-        <!-- Submit Button -->
-        <input type="submit" value="Test Server" />
-      </form>
-      <!-- Result Display -->
-      <div class="result">{{ result.name }}</div>
-      <div class="result">{{ result.cpf }}</div>
-      <div class="result">{{ result.birthDate }}</div>
-      <div class="result">{{ result.phone }}</div>
-      <div class="result">{{ result.email }}</div>
-      <div class="result">{{ result.registrationType }}</div>
-      <div class="result">{{ result.testInput }}</div>
-    </main>
+    <component
+      :is="currentStepComponent"
+      :formData="formData"
+      @validated="handleStepValidation"
+      @back="goToPreviousStep"
+      v-if="currentStep !== 'completed'"
+    />
+    <div v-else>
+      <FormStep4
+        :formData="formData"
+        @back="goToPreviousStep"
+        @submit="submitForm"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
-import { onMounted } from 'vue'
+import { ref, computed } from 'vue';
+import FormStep1 from './components/FormStep1.vue';
+import FormStep2 from './components/FormStep2.vue';
+import FormStep3 from './components/FormStep3.vue';
+import FormStep4 from './components/FormStep4.vue';
 
-export default defineComponent({
+export default {
+  components: {
+    FormStep1,
+    FormStep2,
+    FormStep3,
+    FormStep4
+  },
   setup() {
-    const name = ref("");
-    
-    const cpf = ref("");
-    const birthDate = ref("");
-    const phone = ref("");
-    const email = ref("");
-    const registrationType = ref("");
-    const testInput = ref("");
-    const result = ref("");
+    const currentStep = ref('step1');
+    const formData = ref({
+      email: '',
+      registrationType: '',
+      name: '',
+      cpf: '',
+      birthDate: null,
+      phone: '',
+      companyName: '',
+      cnpj: '',
+      companyOpeningDate: null,
+      companyPhone: '',
+      password: ''
+    });
 
-    const onSubmit = async () => {
-      try {
+    const currentStepComponent = computed(() => {
+      return {
+        step1: 'FormStep1',
+        step2: 'FormStep2',
+        step3: 'FormStep3'
+      }[currentStep.value] || '';
+    });
+
+    const handleStepValidation = (data) => {
+      formData.value = { ...formData.value, ...data };
+      const nextStepMap = {
+        step1: 'step2',
+        step2: 'step3',
+        step3: 'completed'
+      };
+      currentStep.value = nextStepMap[currentStep.value] || currentStep.value;
+    };
+
+    const goToPreviousStep = () => {
+      const previousStepMap = {
+        step2: 'step1',
+        step3: 'step2',
+        completed: 'step3'
+      };
+      currentStep.value = previousStepMap[currentStep.value] || currentStep.value;
+    };
+
+    const submitForm = () => {
+      console.log('Dados submetidos:', formData.value);
+      sendFormData();
+    };
+
+    const sendFormData = async () => {
         const response = await fetch('/registration', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            name: name.value,
-            cpf: cpf.value,
-            birthDate: birthDate.value,
-            phone: phone.value,
-            email: email.value,
-            registrationType: registrationType.value,
-            text: testInput.value
-          })
+          body: JSON.stringify(formData.value)
         });
 
         if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
+          throw new Error(`Erro ao enviar os dados. Status: ${response.status}`);
         }
-
         const data = await response.json();
-        result.value = data.result;
-
-      } catch (error) {
-        console.error(error);
-        alert(error.message);
-      }
+        alert('Dados enviados com sucesso!');
     };
-
-    // onMounted(() => {
-    //  result
-    //  console.log(result, 'aqui no mounted');
-    // })
 
     return {
-      name,
-      cpf,
-      birthDate,
-      phone,
-      email,
-      registrationType,
-      testInput,
-      result,
-      onSubmit
+      currentStep,
+      formData,
+      currentStepComponent,
+      handleStepValidation,
+      goToPreviousStep,
+      submitForm
     };
   }
-});
+};
 </script>
-
