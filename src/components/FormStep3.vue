@@ -1,30 +1,39 @@
-<!-- FormStep3.vue -->
 <template>
+  <div class="container">
     <div>
-      <h2>Passo 3: Criar Senha de Acesso</h2>
+      <p>Etapa <span>3</span> de 4</p>
+      <h2>Senha de Acesso</h2>
       <form @submit.prevent="validateStep">
-        <label for="password">Senha de acesso:</label>
-        <input id="password" type="password" v-model="formData.password" required placeholder="Digite sua senha">
-        
-        <button @click.prevent="$emit('back')">Voltar</button>
-        <button type="submit">Continuar</button>
+        <div class="form-group">
+          <label class="label-text" for="password">Senha de acesso:</label>
+          <input class="input-group" id="password" type="password" v-model="formData.password">
+        </div>
+
+        <div class="button-group">
+          <button @click.prevent="$emit('back')" class="btn-outline">Voltar</button>
+          <button type="submit" class="btn">Continuar</button>
+        </div>
       </form>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    props: ['formData'],
-    methods: {
-      validateStep() {
-        if (!this.formData.password) {
-          alert('Por favor, preencha todos os campos.');
-          return;
-        }
-        
-        this.$emit('validated', this.formData);
+  </div>
+</template>
+
+<script>
+export default {
+  props: ['formData'],
+  setup(props, { emit }) {
+    const validateStep = () => {
+      if (!props.formData.password) {
+        alert('Por favor, preencha todos os campos.');
+        return;
       }
-    }
-  };
-  </script>
-  
+
+      emit('validated', props.formData);
+    };
+
+    return {
+      validateStep
+    };
+  }
+};
+</script>

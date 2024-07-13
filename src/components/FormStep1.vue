@@ -12,17 +12,15 @@
         <div class="radio-group">
          <div>
           <input type="radio" id="registrationTypePF" value="PF" v-model="formData.registrationType" required>
-          <label class="label-text" for="registrationTypePF">Pessoa Física</label>
+          <label class="label-text" for="registrationTypePF">Pessoa física</label>
          </div>
 
           <div>
             <input type="radio" id="registrationTypePJ" value="PJ" v-model="formData.registrationType" required>
-          <label class="label-text" for="registrationTypePJ">Pessoa Jurídica</label>
+          <label class="label-text" for="registrationTypePJ">Pessoa jurídica</label>
           </div>
         </div>
-
         <button class="btn" type="submit">Continuar</button>
-
       </form>
     </div>
   </div>
@@ -37,6 +35,7 @@ export default {
   setup(props, { emit }) {
     const validateStep = () => {
       if (props.formData.email && props.formData.registrationType) {
+        console.log(isValidEmail(props.formData.email));
         if (!isValidEmail(props.formData.email)) {
           alert('Formato de e-mail inválido.');
           return;
