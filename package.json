@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "vite build",
-    "test": "vue-cli-service test:unit",
+    "test:unit": "vue-cli-service test:unit",
     "dev": "vite",
     "preview": "vite preview"
   },
@@ -15,6 +15,8 @@
     "vue": "^3.4.29"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.8",
+    "@babel/preset-env": "^7.24.8",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/cli-plugin-unit-jest": "~5.0.0",
     "@vue/test-utils": "^2.0.0-0",
@@ -22,6 +24,5 @@
     "babel-jest": "^27.0.6",
     "jest": "^27.0.5",
     "vite": "^5.3.1"
-  },
-  "type": "module"
+  }
 }

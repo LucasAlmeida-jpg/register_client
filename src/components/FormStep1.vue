@@ -35,7 +35,6 @@ export default {
   setup(props, { emit }) {
     const validateStep = () => {
       if (props.formData.email && props.formData.registrationType) {
-        // console.log(isValidEmail(props.formData.email));
         if (!isValidEmail(props.formData.email)) {
           alert('Formato de e-mail inválido.');
           return;
