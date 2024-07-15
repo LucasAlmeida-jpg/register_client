@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.post('/registration', (req, res) => {
   const requestData = req.body;     
   res.status(200).json({
-    result: requestData
+    data: requestData
   });
 });
 

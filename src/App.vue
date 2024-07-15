@@ -75,7 +75,6 @@ export default {
     };
 
     const submitForm = () => {
-      console.log('Dados submetidos:', formData.value);
       sendFormData();
     };
 
@@ -92,7 +91,7 @@ export default {
           throw new Error(`Erro ao enviar os dados. Status: ${response.status}`);
         }
         const data = await response.json();
-        alert('Dados enviados com sucesso!');
+        console.log(data);
     };
 
     return {

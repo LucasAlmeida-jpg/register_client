@@ -106,54 +106,29 @@ export default {
 
     const applyCpfMask = (event) => {
       let cpf = event.target.value.replace(/\D/g, ''); 
-      if (cpf.length > 11) {
-        cpf = cpf.slice(0, 11);
-      }
-      if (cpf.length > 9) {
-        cpf = cpf.replace(/^(\d{3})(\d)/, '$1.$2');
-      }
-      if (cpf.length > 6) {
-        cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-      }
-      if (cpf.length > 3) {
-        cpf = cpf.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
-      }
-      event.target.value = cpf;
+      cpf = cpf.slice(0, 11);
+      cpf = cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
+      event.target.value = cpf; 
+      console.log(event.target.value);
     };
+
 
     const applyCnpjMask = (event) => {
       let cnpj = event.target.value.replace(/\D/g, '');
-      if (cnpj.length > 14) {
-        cnpj = cnpj.slice(0, 14);
-      }
-      if (cnpj.length > 12) {
-        cnpj = cnpj.replace(/^(\d{2})(\d)/, '$1.$2');
-      }
-      if (cnpj.length > 8) {
-        cnpj = cnpj.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-      }
-      if (cnpj.length > 5) {
-        cnpj = cnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4');
-      }
-      if (cnpj.length > 1) {
-        cnpj = cnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, '$1.$2.$3/$4-$5');
-      }
+      cnpj = cnpj.slice(0, 14);
+      cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+      // console.log(cnpj, 'cnpj');
       event.target.value = cnpj;
     };
 
+
     const applyDateMask = (event) => {
-      let date = event.target.value.replace(/\D/g, ''); 
-      if (date.length > 8) {
-        date = date.slice(0, 8);
-      }
-      if (date.length > 4) {
-        date = date.replace(/^(\d{2})(\d)/, '$1/$2');
-      }
-      if (date.length > 2) {
-        date = date.replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3');
-      }
+      let date = event.target.value.replace(/\D/g, '');
+      date = date.slice(0, 8);
+      date = date.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
       event.target.value = date;
     };
+
 
     const applyPhoneMask = (event) => {
         let phone = event.target.value.replace(/\D/g, '');
