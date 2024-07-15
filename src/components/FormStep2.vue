@@ -27,22 +27,22 @@
 
       <template v-else-if="formData.registrationType === 'PJ'">
         <div class="form-group">
-          <label for="companyName">Razão social:</label>
+          <label class="label-text" for="companyName">Razão social:</label>
           <input class="input-group" id="companyName" type="text" v-model="formData.companyName">
         </div>
 
         <div class="form-group">
-          <label for="cnpj">CNPJ:</label>
+          <label class="label-text" for="cnpj">CNPJ:</label>
           <input class="input-group" id="cnpj" type="text" v-model="formData.cnpj" @input="applyCnpjMask">
         </div>
 
         <div class="form-group">
-          <label for="companyOpeningDate">Data de abertura:</label>
+          <label class="label-text" for="companyOpeningDate">Data de abertura:</label>
           <input class="input-group" id="companyOpeningDate" type="text" v-model="formData.companyOpeningDate" @input="applyDateMask">
         </div>
 
         <div class="form-group">
-          <label for="companyPhone">Telefone:</label>
+          <label class="label-text" for="companyPhone">Telefone:</label>
           <input class="input-group" id="companyPhone" type="text" v-model="formData.companyPhone" @input="applyPhoneMask">
         </div>
       </template>
