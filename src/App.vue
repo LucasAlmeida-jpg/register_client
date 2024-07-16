@@ -79,6 +79,7 @@ export default {
     };
 
     const sendFormData = async () => {
+      try {
         const response = await fetch('/registration', {
           method: 'POST',
           headers: {
@@ -92,8 +93,11 @@ export default {
         }
         const data = await response.json();
         console.log(data);
+      } catch (error) {
+        console.error('Erro ao enviar os dados:', error);
+      }
     };
-
+    
     return {
       currentStep,
       formData,
